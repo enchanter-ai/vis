@@ -9,3 +9,9 @@ __pycache__/
 *.pyc
 .env
 .env.local
+
+# Windows null-device artifact: `> NUL` under a POSIX shell creates a real file
+NUL
+
+# pytest cache
+.pytest_cache/
