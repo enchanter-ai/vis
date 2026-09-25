@@ -56,5 +56,6 @@ this branch before this changeset, neither reverted or flagged as breaking until
 
 This changeset records intent only. Cutting the actual `enchanter-<pkg>--v0.7.0` git tags against
 this repository (and, later, pushing them) is a release action for the vis owner, outside this
-changeset's scope — see `packages/*/CHANGELOG.md` entry below and `docs/CROSS_REPO_VERSIONING.md`
+changeset's scope — see the `CHANGELOG.md` entry below (this repo has one root-level changelog,
+not a per-package `packages/*/CHANGELOG.md` — no such path exists) and `docs/CROSS_REPO_VERSIONING.md`
 for how downstream plugin repos consume this.

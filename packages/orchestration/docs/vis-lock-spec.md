@@ -61,6 +61,18 @@ from the sibling's working tree at all.
   or conduct-file entry, or a lock+cache pair that is internally consistent with each other but
   does not match what the *pin itself currently contains* — all fail non-zero, each with its own
   named cause.
+- **`--verify` parses the lock strictly against the schema**, not just well-enough to find the
+  fields it wants: a *duplicate* package block or conduct-file entry (even one with a
+  plausible-looking forged `tag_commit`/`sha1`) and an *unknown* key anywhere (top level, inside a
+  package block, or inside a conduct-file entry) are both refused, not silently ignored.
+- **Every `@`-import in the consuming repo is discovered by resolution, not by matching a fixed
+  literal path string.** A plugin agent/skill file nested several directories deep may legitimately
+  need `@../../../.vis-cache/vis/...` (more `../` than a file at the repo root) — bootstrap resolves
+  each `@<relpath>` token relative to the file that contains it and only then classifies it as a
+  covered cache import, an unpinned raw-sibling import (hard error), or unrelated. Directory
+  exclusions (`.git`, `.vis-cache`, `state`, `node_modules`) apply to path components *relative to
+  the repo root* only — never as a substring match against the full filesystem path, which would
+  also match an ancestor directory of the repo itself and silently exclude everything.
 
 ## Shape
 
@@ -131,7 +143,9 @@ diffing it, since it is committed to a shared repo other platforms also verify a
 |---|---|---|
 | Lock missing | Hook + `--verify` | `"vis not bootstrapped — run ./scripts/bootstrap.sh"` |
 | Vis sibling missing | Hook + `--verify` | `"vis sibling missing — run ./scripts/bootstrap.sh"` |
-| Wrong/stale `lock_version` or missing `mode:` | `--verify` | `"lock is stale or wrong-schema (missing 'mode:')"` |
+| Lock missing `mode:` or `lock_version:` entirely (e.g. a v1 lock) | `--verify` | `"lock is stale or wrong-schema (missing 'mode:' or 'lock_version:')"` |
+| `lock_version:` present but ≠ the schema this build understands (e.g. `99`) | `--verify` | `"lock_version mismatch: lock says <X>, this bootstrap understands <Y>"` |
+| Duplicate or unknown key anywhere in the lock (top level, a package block, or a conduct_files entry) | `--verify` | named per case: `"duplicate top-level key"` / `"duplicate package block"` / `"duplicate conduct_files entry"` / `"unknown top-level key"` / `"unknown key in package '<pkg>' block"` / `"unknown key in conduct_files entry '<path>'"` |
 | Lock `mode:` ≠ requested mode | `--verify` | `"lock mode mismatch: lock says <X>, verify requested <Y>"` |
 | Pinned tag not resolvable in the sibling's **local** refs | bootstrap + `--verify` | `"vis tag <tag> not found locally - fetch it (git -C ../vis fetch --tags) or ask the vis owner to cut it"` — never fetched automatically |
 | `packages.<pkg>.{version,tag,tag_commit}` ≠ re-resolved from `.vis-versions` + the sibling's local tag refs | `--verify` | `"package <pkg>: recorded tag/version no longer resolves to the same content"` |
