@@ -5,23 +5,26 @@
 ### Release metadata
 
 - **`enchanter-{core,skills,web,orchestration}--v0.7.0` package tags** (WIX-INSTALL-002).
-  Bumped from `v0.6.0` (all four packages were pinned to the same tag commit,
-  `4b76f9a74454a47be6bea7beb8c426c29c106f9c`, dated 2026-05-11). This release
-  contains no content changes of its own beyond this metadata; it exists to
-  give the conduct content already on this branch (added since `v0.6.0`) a
-  version identity that downstream `.vis-lock` pins can reference. See
-  `.changeset/enchanter-core-web-v0-7-0.md` for the exact file-level diff
-  driving the bump, and `docs/CROSS_REPO_VERSIONING.md` for how per-package
-  git tags relate to the `@enchanter-ai/vis-meta` changesets version (bumped
-  `0.1.0` → `0.2.0` alongside this entry — see that doc's "TL;DR" for why the
-  two numbers are independent).
-- Cutting and pushing the actual `enchanter-<pkg>--v0.7.0` git tags is a
-  release action for the vis owner; this repository's remediation clone
-  records the changeset and this entry only. Downstream `.vis-versions` pins
-  that reference `~0.7.0` before the tags exist will fail loud
-  (`tag missing in vis: enchanter-<pkg>--v0.7.0`) rather than silently
-  resolving to something else — this is by design (WIX-INSTALL-002's
-  fail-loud contract), not a defect in this changelog entry.
+  Bumped from `v0.6.0` — four separate annotated tags that all peel to the same commit,
+  `d0d0f9c4d1e82076bce12e74e81db33d0afedc5d` (dated 2026-05-11); `4b76f9a7...` is only the
+  `core` tag's own object id, not a shared commit. This release adds no new content of its own
+  beyond this metadata — the conduct content itself was already on this branch — but it is
+  **not purely additive**: `hooks.md`'s Pattern 1 deny exit code changes from 1 to 2, and
+  `conduct-abi-check.sh`'s default canonical path and no-dir behavior change. See
+  `.changeset/enchanter-core-web-v0-7-0.md` for the full file count, the two behavioral changes
+  flagged in detail, and the open decisions left for the vis owner (0.7.0 vs 1.0.0, annotated vs
+  lightweight tags, whether/how this should bump `@enchanter-ai/vis-meta` at all).
+- **`package.json` is intentionally NOT hand-bumped in this entry.** Per `.changeset/README.md`'s
+  own documented flow, only `changeset version` (run against the auto-opened Versions PR) moves
+  `package.json` and generates its changelog entry; a normal commit/PR contributes a changeset,
+  not a version bump. Hand-bumping here in addition to the changeset would double-bump once CI's
+  `changesets.yml` workflow runs `changeset version` on `main`.
+- Cutting and pushing the actual `enchanter-<pkg>--v0.7.0` git tags is a release action for the
+  vis owner; this repository's remediation clone records the changeset and this entry only, plus
+  a `.vis-lock` regenerated against a disposable clone with those tags cut locally (see the
+  companion Wixie-side change). Downstream `.vis-versions` pins that reference `~0.7.0` before
+  the real tags exist will fail loud (`vis tag enchanter-<pkg>--v0.7.0 not found locally`) rather
+  than silently resolving to something else — by design, not a defect in this changelog entry.
 
 ## Unreleased — 2026-05-12
 
