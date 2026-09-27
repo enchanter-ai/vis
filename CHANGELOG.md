@@ -1,30 +1,50 @@
 # Changelog
 
-## Unreleased — 2026-09-25
+## 0.7.0 - enchanter-{core,skills,web,orchestration} (unreleased; tags not yet cut)
 
 ### Release metadata
 
-- **`enchanter-{core,skills,web,orchestration}--v0.7.0` package tags** (WIX-INSTALL-002).
-  Bumped from `v0.6.0` — four separate annotated tags that all peel to the same commit,
-  `d0d0f9c4d1e82076bce12e74e81db33d0afedc5d` (dated 2026-05-11); `4b76f9a7...` is only the
-  `core` tag's own object id, not a shared commit. This release adds no new content of its own
-  beyond this metadata — the conduct content itself was already on this branch — but it is
-  **not purely additive**: `hooks.md`'s Pattern 1 deny exit code changes from 1 to 2, and
-  `conduct-abi-check.sh`'s default canonical path and no-dir behavior change. See
-  `.changeset/enchanter-core-web-v0-7-0.md` for the full file count, the two behavioral changes
-  flagged in detail, and the open decisions left for the vis owner (0.7.0 vs 1.0.0, annotated vs
-  lightweight tags, whether/how this should bump `@enchanter-ai/vis-meta` at all).
-- **`package.json` is intentionally NOT hand-bumped in this entry.** Per `.changeset/README.md`'s
-  own documented flow, only `changeset version` (run against the auto-opened Versions PR) moves
-  `package.json` and generates its changelog entry; a normal commit/PR contributes a changeset,
-  not a version bump. Hand-bumping here in addition to the changeset would double-bump once CI's
-  `changesets.yml` workflow runs `changeset version` on `main`.
-- Cutting and pushing the actual `enchanter-<pkg>--v0.7.0` git tags is a release action for the
-  vis owner; this repository's remediation clone records the changeset and this entry only, plus
-  a `.vis-lock` regenerated against a disposable clone with those tags cut locally (see the
-  companion Wixie-side change). Downstream `.vis-versions` pins that reference `~0.7.0` before
-  the real tags exist will fail loud (`vis tag enchanter-<pkg>--v0.7.0 not found locally`) rather
-  than silently resolving to something else — by design, not a defect in this changelog entry.
+- **Package versions.** `packages/{core,skills,web,orchestration}/.claude-plugin/plugin.json` and
+  their `.claude-plugin/marketplace.json` entries now declare `0.7.0` (previously `0.6.0`), so the
+  `enchanter-<pkg>--v0.7.0` tags point at content whose manifests report `0.7.0`. `skills`, `web`
+  and `orchestration` now depend on `enchanter-core ~0.7.0`; `orchestration` keeps
+  `enchanter-cost ~0.6.0` because `cost` is not part of this release. `cost`, `memory`, `safety`
+  and `hooks` are unchanged and stay at `0.6.0`.
+- **Tags (owner decision).** Four ordinary annotated, unsigned tags on one commit, message
+  `enchanter-<pkg> 0.7.0`, following the `v0.6.0` precedent: `enchanter-core--v0.7.0`,
+  `enchanter-skills--v0.7.0`, `enchanter-web--v0.7.0`, `enchanter-orchestration--v0.7.0`.
+  Version `0.7.0` (pre-1.0 minor), not `1.0.0`.
+- **No `@enchanter-ai/vis-meta` bump (owner decision).** The root `package.json` records no
+  component versions, and the `v0.6.0` cut did not bump it either, so it stays `0.1.0`. The
+  pending `.changeset/enchanter-core-web-v0-7-0.md` (`"@enchanter-ai/vis-meta": minor`) was
+  removed so that `changesets.yml` does not queue a vis-meta `0.2.0` "Version Packages" PR; its
+  release notes are folded into this entry.
+- **Why the release.** WIX-INSTALL-002: the `enchanter-<pkg>--v0.6.0` tags (four separate
+  annotated tag objects that all peel to `d0d0f9c4d1e82076bce12e74e81db33d0afedc5d`, 2026-05-11)
+  no longer identify the conduct content downstream consumers (Wixie's `CLAUDE.md`) import.
+  Since `d0d0f9c4`: `core` gained `capability-fidelity.md`, `metacognition.md`,
+  `precedent-freshness.md`, `prior-art-discovery.md`, `reversibility-foresight.md`,
+  `substrate-consumption.md`, `sunk-cost-iteration.md`, `verdict-calibration.md`; `web` gained
+  `citation-verification.md`, `mcp-research-discipline.md`, `research-pipeline.md`,
+  `source-discipline.md`; `skills` and `orchestration` carry smaller edits (see
+  `git diff --stat enchanter-<pkg>--v0.6.0 -- packages/<pkg>` for the exact file lists).
+
+### Behavioral changes (not purely additive)
+
+- `packages/core/conduct/hooks.md`: Pattern 1 (PreToolUse destructive-op deny) documents deny
+  exit code **2** instead of **1**. A hook written against the old doc (`exit 1` to deny) is now
+  a non-blocking error in Claude Code, not a block.
+- `packages/core/scripts/conduct-abi-check.sh`: the default canonical path changes from
+  `../agent-foundations/conduct` to `../vis/conduct`; a repo with no local `shared/conduct/` now
+  reports `SKIPPED` on stderr with exit 0 (previously a silent exit 0 with a stdout message), and
+  a new `--strict` / `CONDUCT_ABI_STRICT=1` mode reports that condition as exit 2.
+
+### Documentation
+
+- `packages/orchestration/docs/vis-lock-spec.md` describes `.vis-lock` schema v2 (mode, tag,
+  lock_version, strict `--verify` parsing, file-relative `@`-import resolution).
+- Downstream `.vis-versions` pins of `~0.7.0` fail loud (`vis tag enchanter-<pkg>--v0.7.0 not
+  found locally`) until the tags exist, by design.
 
 ## Unreleased — 2026-05-12
 
