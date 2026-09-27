@@ -1,32 +1,41 @@
 # Changelog
 
-## 0.7.0 - enchanter-{core,skills,web,orchestration} (unreleased; tags not yet cut)
+## 0.7.0 - enchanter-{core,skills,web,orchestration,cost,memory,safety} (unreleased; tags not yet cut)
 
 ### Release metadata
 
-- **Package versions.** `packages/{core,skills,web,orchestration}/.claude-plugin/plugin.json` and
-  their `.claude-plugin/marketplace.json` entries now declare `0.7.0` (previously `0.6.0`), so the
-  `enchanter-<pkg>--v0.7.0` tags point at content whose manifests report `0.7.0`. `skills`, `web`
-  and `orchestration` now depend on `enchanter-core ~0.7.0`; `orchestration` keeps
-  `enchanter-cost ~0.6.0` because `cost` is not part of this release. `cost`, `memory`, `safety`
-  and `hooks` are unchanged and stay at `0.6.0`.
-- **Tags (owner decision).** Four ordinary annotated, unsigned tags on one commit, message
+- **Released components (computed dependency closure).** Seven packages move from `0.6.0` to
+  `0.7.0`: `enchanter-core`, `enchanter-skills`, `enchanter-web`, `enchanter-orchestration`
+  (the requested release) plus `enchanter-cost`, `enchanter-memory`, `enchanter-safety`, whose
+  declared `enchanter-core ~0.6.0` range would reject `enchanter-core 0.7.0`. Claude Code
+  installs one copy of each plugin, so without these three they would fail to load next to core
+  `0.7.0` (and `orchestration` through its `cost` dependency). Each released
+  `packages/<pkg>/.claude-plugin/plugin.json` and its `.claude-plugin/marketplace.json` entry
+  declare `0.7.0`, so each `enchanter-<pkg>--v0.7.0` tag points at content whose manifests report
+  `0.7.0`.
+- **Dependency ranges.** `skills`, `web`, `orchestration`, `cost`, `memory` and `safety` depend
+  on `enchanter-core ~0.7.0`; `orchestration` depends on `enchanter-cost ~0.7.0`.
+- **Not released.** `enchanter-hooks` stays `0.6.0`: its dependency is a bare `enchanter-core`
+  (any version), which already accepts core `0.7.0`. The marketplace catalog `metadata.version`
+  also stays `0.6.0` (set once at the family split, never used as a per-release field).
+- **Tags (owner decision).** Ordinary annotated, unsigned tags, all on one commit, message
   `enchanter-<pkg> 0.7.0`, following the `v0.6.0` precedent: `enchanter-core--v0.7.0`,
-  `enchanter-skills--v0.7.0`, `enchanter-web--v0.7.0`, `enchanter-orchestration--v0.7.0`.
+  `enchanter-skills--v0.7.0`, `enchanter-web--v0.7.0`, `enchanter-orchestration--v0.7.0`,
+  `enchanter-cost--v0.7.0`, `enchanter-memory--v0.7.0`, `enchanter-safety--v0.7.0`.
   Version `0.7.0` (pre-1.0 minor), not `1.0.0`.
 - **No `@enchanter-ai/vis-meta` bump (owner decision).** The root `package.json` records no
   component versions, and the `v0.6.0` cut did not bump it either, so it stays `0.1.0`. The
   pending `.changeset/enchanter-core-web-v0-7-0.md` (`"@enchanter-ai/vis-meta": minor`) was
   removed so that `changesets.yml` does not queue a vis-meta `0.2.0` "Version Packages" PR; its
   release notes are folded into this entry.
-- **Why the release.** WIX-INSTALL-002: the `enchanter-<pkg>--v0.6.0` tags (four separate
+- **Why the release.** WIX-INSTALL-002: the `enchanter-<pkg>--v0.6.0` tags (seven separate
   annotated tag objects that all peel to `d0d0f9c4d1e82076bce12e74e81db33d0afedc5d`, 2026-05-11)
   no longer identify the conduct content downstream consumers (Wixie's `CLAUDE.md`) import.
   Since `d0d0f9c4`: `core` gained `capability-fidelity.md`, `metacognition.md`,
   `precedent-freshness.md`, `prior-art-discovery.md`, `reversibility-foresight.md`,
   `substrate-consumption.md`, `sunk-cost-iteration.md`, `verdict-calibration.md`; `web` gained
   `citation-verification.md`, `mcp-research-discipline.md`, `research-pipeline.md`,
-  `source-discipline.md`; `skills` and `orchestration` carry smaller edits (see
+  `source-discipline.md`; the other released packages carry smaller edits (see
   `git diff --stat enchanter-<pkg>--v0.6.0 -- packages/<pkg>` for the exact file lists).
 
 ### Behavioral changes (not purely additive)

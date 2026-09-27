@@ -11,9 +11,9 @@
     { "name": "enchanter-skills",        "source": "skills",        "version": "0.7.0", "description": "Skill authoring + output formatting + 8 framework recipes (Claude Code, Cursor, OpenAI Agents, LangChain, Pydantic-AI, BAML, system-prompt, stupid-agent-review)." },
     { "name": "enchanter-orchestration", "source": "orchestration", "version": "0.7.0", "description": "Multi-agent orchestration: task-decomposition, multi-turn-negotiation, eval-driven-self-improvement, inference-substrate + 12 algorithmic engines + shared test runner." },
     { "name": "enchanter-web",           "source": "web",           "version": "0.7.0", "description": "Live web access conduct: cache, dedup, budget, cite hygiene." },
-    { "name": "enchanter-memory",        "source": "memory",        "version": "0.6.0", "description": "Cross-session memory hygiene: working memory, decay, recall verification." },
-    { "name": "enchanter-cost",          "source": "cost",          "version": "0.6.0", "description": "Session economics: cost-accounting, latency-budgeting, eval-harnesses recipe." },
-    { "name": "enchanter-safety",        "source": "safety",        "version": "0.6.0", "description": "Safety + compliance + security + operator-wiring: refusal-and-recovery, F15-F21 taxonomy, FedRAMP/ISO/SOC2/NIST evidence, pentest, synthetic-fire, OTLP/PagerDuty/Sentry wiring." },
+    { "name": "enchanter-memory",        "source": "memory",        "version": "0.7.0", "description": "Cross-session memory hygiene: working memory, decay, recall verification." },
+    { "name": "enchanter-cost",          "source": "cost",          "version": "0.7.0", "description": "Session economics: cost-accounting, latency-budgeting, eval-harnesses recipe." },
+    { "name": "enchanter-safety",        "source": "safety",        "version": "0.7.0", "description": "Safety + compliance + security + operator-wiring: refusal-and-recovery, F15-F21 taxonomy, FedRAMP/ISO/SOC2/NIST evidence, pentest, synthetic-fire, OTLP/PagerDuty/Sentry wiring." },
     { "name": "enchanter-hooks",         "source": "hooks",         "version": "0.6.0", "description": "Advisory Claude Code hooks (fail-open, deterministic, quiet) that enforce the conduct substrate at lifecycle events: post-compaction checkpoint (F03), pre-write secret scan, post-edit debug-artifact hygiene. Install activates hooks natively — no settings.json editing." }
   ]
 }
