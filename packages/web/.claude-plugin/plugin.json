@@ -1,8 +1,8 @@
 {
   "name": "enchanter-web",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Live web access for agents: web-fetch conduct (caching, dedup, budget, cite hygiene) plus matching fixture.",
   "dependencies": [
-    { "name": "enchanter-core", "version": "~0.6.0" }
+    { "name": "enchanter-core", "version": "~0.7.0" }
   ]
 }
